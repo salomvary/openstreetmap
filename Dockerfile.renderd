@@ -1,0 +1,27 @@
+FROM ubuntu:trusty
+
+# Add openstreetmap apt-sources
+RUN apt-get install -y --no-install-recommends software-properties-common \
+	&& add-apt-repository ppa:kakrueger/openstreetmap \
+	&& apt-get update
+
+# Install renderd and default mapnik stylesheets
+# mapnik-utils provides shapeindex (implicitly required if dloadcoastlines is true)
+RUN echo openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean false | debconf-set-selections \
+	&& apt-get install -y --no-install-recommends renderd mapnik-utils openstreetmap-mapnik-carto-stylesheet-data
+
+#RUN apt-get install -y --no-install-recommends renderd mapnik-utils openstreetmap-mapnik-carto-stylesheet-data \
+#	&& rm /usr/share/mapnik-osm-carto-data/*.zip \
+#	&& rm /usr/share/mapnik-osm-carto-data/*.tgz
+
+ENV PGHOST database
+ENV PGUSER postgres
+
+COPY renderd.conf /etc/renderd.conf
+
+VOLUME /var/lib/mod_tile
+
+EXPOSE 7654
+
+# TODO fix `docker run -it renderd` not reacting to ctrl+c
+ENTRYPOINT ["renderd", "-f"]

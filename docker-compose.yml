@@ -1,0 +1,16 @@
+database:
+  image: salomvary/openstreetmap_database
+
+renderd:
+  image: salomvary/openstreetmap_renderd
+  links:
+    - database
+
+httpd:
+  image: salomvary/openstreetmap_httpd
+  ports:
+    - "8080:80"
+  links:
+    - renderd
+  volumes_from:
+    - renderd
