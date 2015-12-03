@@ -14,6 +14,7 @@ open http://`docker-machine ip default`:8080/osm/slippymap.html
 
 ## Related
 
+- [Building a tile server from packages (SWITCH2OSM)](https://switch2osm.org/serving-tiles/building-a-tile-server-from-packages/)
 - [OpenStreetMap packages for Ubuntu](https://launchpad.net/~kakrueger/+archive/ubuntu/openstreetmap)
 - [OpenStreetMap packages for Ubuntu (sources)](https://github.com/apmon/OSM-rendering-stack-deplou)
 - [mod_tile and renderd source](https://github.com/openstreetmap/mod_tile)
