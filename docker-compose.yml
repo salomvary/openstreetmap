@@ -1,13 +1,13 @@
 database:
-  image: salomvary/openstreetmap_database
+  image: salomvary/openstreetmap-database
 
 renderd:
-  image: salomvary/openstreetmap_renderd
+  image: salomvary/openstreetmap-renderd
   links:
     - database
 
 httpd:
-  image: salomvary/openstreetmap_httpd
+  image: salomvary/openstreetmap-httpd
   ports:
     - "8080:80"
   links:

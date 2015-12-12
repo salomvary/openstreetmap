@@ -6,7 +6,7 @@ This is a work-in-progress experiment to run OpenStreetMap on Docker.
 
 ```
 docker-compose up
-docker run --link=-it --link openstreetmap_database_1:database salomvary/openstreetmap_importer
+docker run --link=-it --link openstreetmap-database_1:database salomvary/openstreetmap-importer
 ./create-gis-database.sh
 ./import-osm.sh http://download.geofabrik.de/europe/liechtenstein-latest.osm.pbf
 open http://`docker-machine ip default`:8080/osm/slippymap.html
