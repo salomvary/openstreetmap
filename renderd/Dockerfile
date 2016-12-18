@@ -1,19 +1,13 @@
 FROM ubuntu:trusty
 
 # Add openstreetmap apt-sources
-RUN apt-get install -y --no-install-recommends software-properties-common \
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends software-properties-common \
 	&& add-apt-repository ppa:kakrueger/openstreetmap \
 	&& apt-get update
 
-# Install renderd and default mapnik stylesheets
-# mapnik-utils provides shapeindex (implicitly required if dloadcoastlines is true)
-RUN apt-get install -y --no-install-recommends renderd mapnik-utils openstreetmap-mapnik-carto-stylesheet-data \
-	&& rm /usr/share/mapnik-osm-carto-data/*.zip \
-	&& rm /usr/share/mapnik-osm-carto-data/*.tgz
-
-# Skip downloading coastlines
-#RUN echo openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean false | debconf-set-selections \
-#	&& apt-get install -y --no-install-recommends renderd mapnik-utils openstreetmap-mapnik-carto-stylesheet-data
+# Install renderd
+RUN apt-get install -y --no-install-recommends renderd
 
 ENV PGHOST database
 ENV PGUSER postgres
@@ -21,6 +15,7 @@ ENV PGUSER postgres
 COPY renderd.conf /etc/renderd.conf
 
 VOLUME /var/lib/mod_tile
+VOLUME /etc/mapnik-osm-carto-data
 
 EXPOSE 7654
 
