@@ -1,4 +1,0 @@
-FROM postgres
-
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends postgresql-9.4-postgis-2.1
