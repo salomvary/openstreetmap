@@ -1,7 +1,8 @@
 FROM ubuntu:trusty
 
 # Add openstreetmap apt-sources
-RUN apt-get install -y --no-install-recommends software-properties-common \
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends software-properties-common \
 	&& add-apt-repository ppa:kakrueger/openstreetmap \
 	&& apt-get update
 
@@ -24,6 +25,7 @@ RUN sed -ri ' \
 		/etc/apache2/sites-available/default-ssl.conf \
 		/etc/apache2/sites-available/000-default.conf
 
+# TODO: make renderd address configurable
 RUN sed -ri ' \
 		s!^(\s*ModTileRenderdSocketName)!#\1!g; \
 		s!^#(\s*ModTileRenderdSocketAddr).*! \1 renderd 7654!g; \
@@ -33,6 +35,8 @@ COPY renderd.conf /etc/renderd.conf
 COPY httpd-foreground ./
 
 VOLUME /var/lib/mod_tile
+# TODO check if this is necessary and remove
+VOLUME /etc/mapnik-osm-carto-data
 
 EXPOSE 80
 
